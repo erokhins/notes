@@ -1,4 +1,28 @@
-<?
+<?php
+function getIdForFolder($folder) {
+	$folder = addslashes($folder);
+	mysql_query("
+		INSERT INTO `folders`(`folder`)
+		SELECT * FROM (SELECT '$folder') AS tmp
+		WHERE NOT EXISTS (
+			SELECT id FROM `folders` WHERE `folder` = '$folder'
+		) LIMIT 1;
+	");
+	$t1 = mysql_query("
+		SELECT id FROM `folders` WHERE `folder` = '$folder'
+	");
+	echo mysql_error();
+	$row = mysql_fetch_assoc($t1);
+	if($row === false){
+		return -1;
+	}else{
+		return $row['id'];
+	}
+}
+
+
+
+
 function createNewUser($checkSum) {
 	$checkSum = addslashes($checkSum);
 	mysql_query("
@@ -96,4 +120,4 @@ function refer($link) {
 	header("Location: $link");	
 	die();
 }
-?>
+

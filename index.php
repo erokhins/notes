@@ -4,3 +4,4 @@ include "sql/sql.php";
 
 
 
+echo getIdForFolder($_GET['url']);
