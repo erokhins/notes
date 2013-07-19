@@ -20,14 +20,62 @@ function getIdForFolder($folder) {
 	}
 }
 
+function isRightUser($login, $password) {
+	$login = addslashes($login);
+	$md5 = md5($password."silil");
+	$t1 = mysql_query("
+		SELECT * FROM `users` 
+		WHERE `login` = '$login'
+	");
+	$row = mysql_fetch_assoc($t1);
+
+	if($row === false){
+		mysql_query("
+			INSERT 
+			INTO `users`(`login`, `password`)
+			VALUES ('$login', '$md5')
+		");
+		return true;
+	}else{
+		return $row['password'] == $md5;
+	}
+}
+
+function getSubFolder($baseFolder, $folder) {
+	$baseLen = strlen($baseFolder);
+	$end = strpos($folder, "/", $baseLen);
+	return substr($folder, $baseLen, $end - $baseLen);
+	
+}
+
+function getSubFolders($folder) {
+	$safeFolder = addslashes($folder);
+	$t1 = mysql_query("
+		SELECT `folder` 
+		FROM `folders`
+		WHERE `folder` LIKE '$safeFolder%'
+	");
+	$row = mysql_fetch_assoc($t1);
+	$m = array();
+	$s = 0;
+	while ($row !== false) {
+		$subFolder = $row['folder'];
+		if ($subFolder != $folder) {
+			$m[$s] = getSubFolder($folder, $subFolder);
+			$s++;
+		}
+		$row = mysql_fetch_assoc($t1);
+	}
+	sort($m);
+	return array_unique($m);
+}
 
 
-
-function createNewUser($checkSum) {
+function createNewlogin($checkSum) {
 	$checkSum = addslashes($checkSum);
 	mysql_query("
 	INSERT
-	INTO `users`(`checkSum`)
+	INTO `logins`(`checkSum`)
 	VALUES ('$checkSum')  
 	");
 	
@@ -43,13 +91,13 @@ function createNewUser($checkSum) {
 	}
 }
 
-function createNewValue($userId) {
-	settype($userId, 'integer');
+function createNewValue($loginId) {
+	settype($loginId, 'integer');
 	
 	mysql_query("
 	INSERT
-	INTO `values`(`userId`)
-	VALUES ('$userId')  
+	INTO `values`(`loginId`)
+	VALUES ('$loginId')  
 	");
 	
 	$t1 = mysql_query("
@@ -71,17 +119,17 @@ function getValue($id) {
 	if ($row === false) {
 		return -1;
 	} else {
-		return array('userId' => $row['userId'], 'value' => $row['value'], 'name' => $row['name']);
+		return array('loginId' => $row['loginId'], 'value' => $row['value'], 'name' => $row['name']);
 	}
 }
 
-function getValues($userId) {
-	settype($userId, 'integer');
+function getValues($loginId) {
+	settype($loginId, 'integer');
 
 	$t1 = mysql_query("
 		SELECT * 
 		FROM `values`
-		WHERE `userId` = $userId 
+		WHERE `loginId` = $loginId 
 		ORDER BY `id` 
 	");	
 	$row = mysql_fetch_assoc($t1);
@@ -95,29 +143,19 @@ function getValues($userId) {
 	return $m;
 }
 
-function setValue($id, $userId, $value, $name) {
+function setValue($id, $loginId, $value, $name) {
 	settype($id, 'integer');
-	settype($userId, 'integer');
+	settype($loginId, 'integer');
 	$value = addslashes($value);
 	$name = addslashes($name);
 	$q = "
 		UPDATE `values`
 		SET `value` = '$value', `name` = '$name'
-		WHERE `id` = $id AND `userId` = $userId
+		WHERE `id` = $id AND `loginId` = $loginId
 	";
 	echo $q;
 	mysql_query($q);
 }
 
 
-function getCheck($id) {
-	global $sil;
-	return md5($id . $sil);
-}
-
-function refer($link) {
-	echo "refer: $link";
-	header("Location: $link");	
-	die();
-}
 
