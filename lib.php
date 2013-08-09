@@ -18,3 +18,8 @@ function refer($link) {
 	//header("Location: $link");	
 	//die();
 }
+
+function getParentFolder($folder) {
+	$pos = str_split($folder, '/');
+	print_r($pos);
+}
