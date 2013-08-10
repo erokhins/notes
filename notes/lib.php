@@ -15,7 +15,7 @@ function getUserName($str) {
 
 function refer($link) {
 	echo "refer: <a href = '$link'>$link</a><br>";
-	//header("Location: $link");	
+	header("Location: $link");	
 	die();
 }
 

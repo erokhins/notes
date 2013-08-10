@@ -8,6 +8,8 @@
 	}
 	$startFolder = $rootFolder.$folder;
 	$allSubfolders = getSubFolders($folder);
+	
+	$allMessages = getAllMessages($folderId);
 ?>
 <!DOCTYPE html>
 <html>
@@ -45,29 +47,24 @@
 			<div id="messages" class= "redb">
 				<div style="min-height:350px;">
 					<table id = "table_messages">
-						<tr>
-							<td>Сообщение!!!</td>
-							<td class = "del">
-								<a href = "/del?id=12">X</a>
-							</td>
-						</tr>
 						
+						<?for ($i = 0; $i < sizeof($allMessages); $i++) {
+							$message = str_replace("\n", "<br>", htmlspecialchars($allMessages[$i]['message']));
+							$id = $allMessages[$i]['id']
+							?>
 						<tr>
-							<td>Сообщение!!! <br><br>wegweg</td>
+							<td><?=$message?></td>
 							<td class = "del">
-								<a href = "/del?id=12">X</a>
+								<a href = "<?=$startFolder."?delm=".$id?>">X</a>
 							</td>
 						</tr>
-						<tr>
-							<td>Сообщение!!! <br><br>wegweg</td>
-							<td class = "del">
-								<a href = "/del?id=12">X</a>
-							</td>
-						</tr>
+						<?}?>
+						
 					</table>
 				</div> <!--just div-->
-					<form id = "new_message">
-						<textarea name = "new_message" class="form-control" rows="3"></textarea>
+					<form id = "new_message" action="<?=$rootFolder?>req.php" method="post">
+						<input type="hidden" name = "url" value = "<?=$folder?>">
+						<textarea name = "new_message" class="form-control" rows="4"></textarea>
 						<div class = "text-right" style="padding:10px">
 							<button type="submit" class="btn btn-info">Send</button>		
 						</div>

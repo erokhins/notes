@@ -15,9 +15,10 @@ if (!isset($_GET['url'])) {
 		removeFolder($folder);
 		refer($rootFolder.getParentFolder($folder));
 	}
+	if (isset($_GET['delm'])) {
+		removeMessage($folderId, $_GET['delm']);
+		refer($rootFolder.$folder);
+	}
 	
 	include "templ/messages_html.php";
-	echo $login."<br>";
-	echo $folder."<br>";
-	echo $folderId;
 }

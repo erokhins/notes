@@ -78,6 +78,43 @@ function removeFolder($folder) {
 	");
 }
 
+function getAllMessages($folderId) {
+	settype($folderId, 'integer');
+	$t1 = mysql_query("
+		SELECT * 
+		FROM `messages`
+		WHERE `folderId` = $folderId
+	");
+	$row = mysql_fetch_assoc($t1);
+	$m = array();
+	$s = 0;
+	while ($row !== false) {
+		$m[$s] = $row;
+		$s++;
+		$row = mysql_fetch_assoc($t1);		
+	}
+	return $m;
+}
+
+function addMessage($folderId, $message) {
+	settype($folderId, 'integer');
+	$message = addslashes($message);
+	$q = mysql_query("
+		INSERT
+		INTO `messages`(`folderId`, `message`)
+		VALUES ($folderId, '$message')
+	");
+	echo mysql_error($q);
+}
+
+function removeMessage($folderId, $messageId) {
+	settype($folderId, 'integer');
+	settype($messageId, 'integer');
+	mysql_query("
+		DELETE FROM `messages`
+		WHERE `id` = $messageId AND `folderId` = $folderId
+	");
+}
 
 function createNewlogin($checkSum) {
 	$checkSum = addslashes($checkSum);
