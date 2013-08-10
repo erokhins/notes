@@ -23,8 +23,9 @@
     <link href="<?=$rootFolder?>css/bootstrap-glyphicons.css" rel="stylesheet" media="screen">
     <link href="<?=$rootFolder?>css/my.css" rel="stylesheet" media="screen">
   </head>
-  <body>
+  <body onload='$("#new_Mes").focus();'>
 
+	
 <div class="container">
 	<div class="row">
 		<div class="col-lg-3">
@@ -64,7 +65,7 @@
 				</div> <!--just div-->
 					<form id = "new_message" action="<?=$rootFolder?>req.php" method="post">
 						<input type="hidden" name = "url" value = "<?=$folder?>">
-						<textarea name = "new_message" class="form-control" rows="4"></textarea>
+						<textarea id="new_Mes" name = "new_message" class="form-control" rows="4"></textarea>
 						<div class = "text-right" style="padding:10px">
 							<button type="submit" class="btn btn-info">Send</button>		
 						</div>
@@ -78,11 +79,18 @@
 	
 	
         <!-- JavaScript plugins (requires jQuery) -->
-    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="<?=$rootFolder?>js/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="<?=$rootFolder?>js/bootstrap.min.js"></script>
 
-    <!-- Optionally enable responsive features in IE8 -->
-    <script src="<?=$rootFolder?>js/respond.js"></script>
+    
+    <script>
+		$("#new_Mes").keydown(ctrlEnt);
+		function ctrlEnt(e) {
+			if (e.ctrlKey && e.keyCode == 13) {
+				$("#new_message").submit();
+			}
+		}
+    </script>
   </body>
 </html>

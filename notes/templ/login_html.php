@@ -38,7 +38,7 @@
 	</div>
   </form>
         <!-- JavaScript plugins (requires jQuery) -->
-    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="<?=$rootFolder?>js/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="<?=$rootFolder?>js/bootstrap.min.js"></script>
 
