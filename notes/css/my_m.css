@@ -1,0 +1,22 @@
+.menu {
+	margin: 10px !important;
+	min-height: 30px !important;
+}
+
+#message_div {
+	min-height: 30px !important;
+}
+
+#messages {
+	margin: 5px !important;
+	padding: 3px !important;
+}
+
+#table_messages td {
+	padding: 5px !important;
+}
+
+#new_message textarea {
+	margin: 3px !important;
+}
+

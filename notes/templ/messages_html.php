@@ -22,6 +22,7 @@
     <link href="<?=$rootFolder?>css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="<?=$rootFolder?>css/bootstrap-glyphicons.css" rel="stylesheet" media="screen">
     <link href="<?=$rootFolder?>css/my.css" rel="stylesheet" media="screen">
+    <link href="<?=$rootFolder?>css/my_m.css" rel="stylesheet" media="only screen and (max-device-width: 480px)">
   </head>
   <body onload='$("#new_Mes").focus();'>
 
@@ -46,7 +47,7 @@
 		</div>
 		<div class="col-lg-9">
 			<div id="messages" class= "redb">
-				<div style="min-height:350px;">
+				<div id = "message_div">
 					<table id = "table_messages">
 						
 						<?for ($i = 0; $i < sizeof($allMessages); $i++) {
