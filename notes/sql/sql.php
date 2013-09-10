@@ -84,6 +84,7 @@ function getAllMessages($folderId) {
 		SELECT * 
 		FROM `messages`
 		WHERE `folderId` = $folderId
+		ORDER BY `id`
 	");
 	$row = mysql_fetch_assoc($t1);
 	$m = array();
